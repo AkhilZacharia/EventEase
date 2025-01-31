@@ -1,0 +1,133 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #533434;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar-logo h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.navbar-links {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.navbar-links li a:hover {
+  color: #f7b7a3;
+}
+
+/* Main Event Section */
+.event-container {
+  margin-top: 420px;  /* Adjust the margin to give space for the fixed navbar */
+  padding: 40px;
+  text-align: center;
+}
+
+.event-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+/* Event Banners */
+.event-banners {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.event-banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.event-banner-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.event-banner-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.event-banner-info h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.event-banner-info p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.book-btn {
+  background-color: #8a3737;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s;
+}
+
+.book-btn:hover {
+  background-color: #f7b7a3;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
+
+  .event-banners {
+    flex-direction: column;
+  }
+
+  .event-banner-info {
+    padding: 15px;
+  }
+
+  .book-btn {
+    padding: 10px 20px;
+  }
+}

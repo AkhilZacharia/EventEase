@@ -1,0 +1,49 @@
+/* General styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h2, h3 {
+    text-align: center;
+  }
+  
+  h3 {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .register-container {
+    padding: 20px;
+  }
+  
+  .form-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .description {
+    padding-left: 30px;
+    display: none; /* Initially hidden for responsiveness */
+  }
+  
+  @media (min-width: 768px) {
+    .register-container {
+      padding: 40px;
+    }
+  
+    .description {
+      display: block;
+    }
+  }
+  
+  /* Error styling */
+  .MuiFormHelperText-root {
+    font-size: 12px;
+    color: red;
+  }
+  

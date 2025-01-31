@@ -1,0 +1,27 @@
+.seats-container {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);  /* 5 seats per row */
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .seat {
+    width: 50px;
+    height: 50px;
+    background-color: lightgray;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .seat.selected {
+    background-color: green;
+    color: white;
+  }
+  
+  .selected-seats {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  
