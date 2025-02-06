@@ -48,7 +48,7 @@ const Login = () => {
      if(res.data.key){
        sessionStorage.setItem('logintoken',res.data.key); 
         const decoded = jwtDecode(res.data.key);
-        //  console.log(decoded);  
+          // console.log(decoded);  
        if(decoded.Role=='Admin') {
         console.log('Admin');
           navigate('/admindashboard');

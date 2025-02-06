@@ -16,8 +16,8 @@ const {encrypt, decrypt} = require('../crypt/crypt');
 // Login
 defaultRouter.post('/',async (req,res)=>{ 
   console.log(req.body); 
-  const user= await userModel.findOne({Email:req.body.Email})  
-  console.log('user',user);
+  const user= await userModel.findOne({Email:req.body.Email,approved: true })  
+  // console.log('user',user);
   if(!user){
       res.status(404).send({message:'User not found'});
   }
@@ -32,10 +32,23 @@ defaultRouter.post('/',async (req,res)=>{
       const userrole= await RoleModel.findOne({RoleId:role.RoleId});
       console.log(userrole.Role);
       ///////////////////
-      const payload={Email:user.Email,Password:pass.Password,Role:userrole.Role};
-      const token= jwt.sign(payload,'masterkey');
-       res.status(200).send({message:'Login Successful',key:token}) 
-    
+      if (userrole.Role == 'Admin') {
+        console.log('hi admin');
+        const payload={Email:user.Email,UserName:user.Name,Password:pass.Password,User:user._id.toString(),Role:userrole.Role};
+        const token= jwt.sign(payload,'Admin');
+        res.status(200).send({message:'Login Successful',key:token}) 
+      }
+      else if (userrole.Role == 'Organizer') {
+        console.log('hi Organizer');
+        const payload={Email:user.Email,UserName:user.Name,Password:pass.Password,User:user._id.toString(),Role:userrole.Role};
+        const token= jwt.sign(payload,'Organizer');
+        res.status(200).send({message:'Login Successful',key:token}) 
+      } else {
+        console.log('hi user');
+        const payload={Email:user.Email,UserName:user.Name,Password:pass.Password,User:user._id.toString(),Role:userrole.Role};
+        const token= jwt.sign(payload,'User');
+        res.status(200).send({message:'Login Successful',key:token}) 
+      }
   })
 }catch (error){
   console.log(error);

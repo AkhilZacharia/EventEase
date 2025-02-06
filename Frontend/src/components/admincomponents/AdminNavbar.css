@@ -1,0 +1,51 @@
+/* Navbar styles */
+.navbar {
+  background-color: #343a40; /* Dark background */
+  border-bottom: 1px solid #dee2e6;
+  height: 70px;
+  padding-top: 0px;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.navbar-toggler {
+  border-color: #ffffff;
+}
+
+.navbar-toggler-icon {
+  background-color: #ffffff;
+}
+
+.navbar-nav-scroll {
+  --bs-scroll-height: 100px;
+}
+
+.navbar-nav .nav-item .nav-link.active {
+  color: #198754; /* Bootstrap's green for active link */
+}
+
+.nav-item .nav-link {
+  color: #ffffff;
+}
+
+.nav-item .nav-link.disabled {
+  color: #6c757d; /* Grey color for disabled links */
+}
+
+.form-control {
+  max-width: 250px;
+}
+/* Ensuring there is space between navbar and the content */
+.content {
+  padding-top: 80px; /* Adjust based on the height of your navbar */
+}
+
+/* For smaller screens, the padding will automatically adjust to keep it clean */
+@media (max-width: 991px) {
+  .content {
+    padding-top: 60px; /* For mobile devices, reduce the padding if needed */
+  }
+}
