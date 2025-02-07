@@ -59,7 +59,7 @@ const Login = () => {
         }
         else if(decoded.Role =="User"){
           console.log('User');
-           navigate('/home');
+           navigate('/home2');
         }
         }else {
             navigate('/');

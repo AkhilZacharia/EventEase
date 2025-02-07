@@ -11,7 +11,7 @@ const EventBook = () => {
     const [showBookingForm, setShowBookingForm] = useState(false);
     const [numTickets, setNumTickets] = useState(1);
     
-    const ticketPrice = 999; 
+    const ticketPrice = message.ticketPrice; 
     
     const handleTicketChange = (event) => {
       setNumTickets(event.target.value);
@@ -58,7 +58,7 @@ const EventBook = () => {
               <hr />
 
               <div className="ticket-price">
-                <span>₹999 onwards</span>
+                <span>From {message.ticketPrice} onwards</span>
               </div>
 
               <button className="buy-now" onClick={() => setShowBookingForm(true)}>
@@ -71,9 +71,7 @@ const EventBook = () => {
         <div className="event-description">
         <h3>Event Details</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a ligula
-          nulla. Vivamus vitae elit non urna mollis consequat at nec elit. In hac
-          habitasse platea dictumst. Integer fermentum et sapien a venenatis.
+        {message.details}
         </p>
       </div>
         </>

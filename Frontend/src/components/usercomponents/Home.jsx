@@ -33,13 +33,13 @@ const Home = () => {
     <div className="event-container">
         <h2 className="event-title">Upcoming Events</h2>
         <div className="event-banners">
-          {events.map((event, index) => (
-            <div key={index} className="event-banner">
+          {events.map((event) => (
+            <div  className="event-banner">
               <img src={event.imageUrl} alt={event.name} className="event-banner-img" />
               <div className="event-banner-info">
-                <h3>{event.name}</h3>
+                <h3>{event.title}</h3>
                 <p>Date: {event.date}</p>
-                <p>Total Tickets: {event.totalTickets}</p>
+                <p>Total Tickets: {event.totalTickets}</p><br/>
                 <p>Remaining Tickets: {event.remainingTickets}</p>
                 <button className="book-btn" onClick={() => book(event._id)}>Book Now</button>
               </div>
