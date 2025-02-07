@@ -29,8 +29,11 @@ const ApproveUser = () => {
 
   const handleApprove = async (userId) => {
     try {
-      await axios.patch(`/api/users/approve/${userId}`);
-      fetchUsers();  // Refresh the data after approving
+        axiosInstance.get(`/approve-user/${userId}`)
+          .then((res) => {
+            alert(`User with ID: ${userId} has been approved`);
+            fetchUsers(); 
+      });
     } catch (error) {
       console.error('Error approving user:', error);
     }
@@ -38,8 +41,9 @@ const ApproveUser = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`/api/users/${userId}`);
-      fetchUsers();  // Refresh the data after deleting
+      await axiosInstance.delete(`/delete/user/${userId}`);
+      alert(`User with ID: ${userId} has been deleted`);
+      fetchUsers(); 
     } catch (error) {
       console.error('Error deleting user:', error);
     }
@@ -47,8 +51,9 @@ const ApproveUser = () => {
 
   const handleBlock = async (userId) => {
     try {
-      await axios.patch(`/api/users/block/${userId}`);
-      fetchUsers();  // Refresh the data after blocking
+      await axiosInstance.get(`/block-user/${userId}`);
+      alert(`User with ID: ${userId} has been banned`);
+      fetchUsers();
     } catch (error) {
       console.error('Error blocking user:', error);
     }

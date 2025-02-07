@@ -1,66 +1,53 @@
-import React, { useState } from 'react';
-import './css/home.css'
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../interceptor/axiosInterceptor';
+import { useNavigate } from 'react-router-dom';
 
-const SeatSelection = ({ totalSeats }) => {
-  // Let's assume totalSeats is an array of seat objects
-  const rows = 5;  // For example, 5 rows of seats
-  const cols = totalSeats / rows;  // The number of columns based on totalSeats
 
-  // Initialize state for selected seats
-  const [selectedSeats, setSelectedSeats] = useState([]);
-
-  // Function to toggle seat selection
-  const toggleSeatSelection = (seatId) => {
-    setSelectedSeats((prevSelected) => {
-      // Check if seat is already selected
-      if (prevSelected.includes(seatId)) {
-        return prevSelected.filter((id) => id !== seatId);  // Remove if already selected
-      } else {
-        return [...prevSelected, seatId];  // Add if not selected
-      }
-    });
-  };
-
-  // Render rows and seats
-  const renderSeats = () => {
-    let seatId = 1; // Seat ID for tracking selection
-
-    const seats = [];
-    for (let row = 0; row < rows; row++) {
-      const seatRow = [];
-      for (let col = 0; col < cols; col++) {
-        const isSelected = selectedSeats.includes(seatId);  // Check if the seat is selected
-        seatRow.push(
-          <button
-            key={seatId}
-            className={`seat ${isSelected ? 'selected' : ''}`}
-            onClick={() => toggleSeatSelection(seatId)}
-          >
-            {seatId}
-          </button>
-        );
-        seatId++; // Increment seat ID
-      }
-      seats.push(
-        <div key={row} className="seat-row">
-          {seatRow}
-        </div>
-      );
-    }
-    return seats;
-  };
-
+const Home = () => {
+    const navigate = useNavigate();
+    const [message, setMessage] = useState(null);
+    const [events, setEvents] = useState([]);
+    const [bookings, setBookings] = useState([]);
+  
+    useEffect(() => {
+      axiosInstance.get('/user/home/').then((res) => {  
+        console.log(res.data);
+        setEvents(res.data); 
+        //  console.log(events);
+      }).catch((error) => {
+        alert('Failed to fetch events');
+      });
+  
+    //   axiosInstance.get('/org/booking/').then((res) => {
+    //     setBookings(res.data);  
+    //   }).catch((error) => {
+    //     alert('Failed to fetch bookings');
+    //   });
+    }, []);
+  
+    const book = (eventId) => {
+      const event = events.find((event) => event._id === eventId);
+      navigate('/eventbook', {state: { data:event }});
+    };
   return (
-    <div className="theater">
-      <h2>Select Your Seats</h2>
-      <div className="seats-container">
-        {renderSeats()}
+    <div className="event-container">
+        <h2 className="event-title">Upcoming Events</h2>
+        <div className="event-banners">
+          {events.map((event, index) => (
+            <div key={index} className="event-banner">
+              <img src={event.imageUrl} alt={event.name} className="event-banner-img" />
+              <div className="event-banner-info">
+                <h3>{event.name}</h3>
+                <p>Date: {event.date}</p>
+                <p>Total Tickets: {event.totalTickets}</p>
+                <p>Remaining Tickets: {event.remainingTickets}</p>
+                <button className="book-btn" onClick={() => book(event._id)}>Book Now</button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="selected-seats">
-        <p>Selected Seats: {selectedSeats.join(', ')}</p>
-      </div>
-    </div>
-  );
-};
+  )
+}
 
-export default SeatSelection;
+export default Home

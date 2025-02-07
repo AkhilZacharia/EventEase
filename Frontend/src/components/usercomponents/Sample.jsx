@@ -36,7 +36,7 @@ const EventPage = () => {
    }
   return (
     <div>
-      <nav className="navbar">
+      {/* <nav className="navbar">
         <div className="navbar-logo">
           <h2>EventBook</h2>
         </div>
@@ -47,7 +47,7 @@ const EventPage = () => {
           <li><a href="/register">Register</a></li>
           <li><a onClick={Logout}>Log Out</a></li>
         </ul>
-      </nav>
+      </nav> */}
 
       <div className="event-container">
         <h2 className="event-title">Upcoming Events</h2>

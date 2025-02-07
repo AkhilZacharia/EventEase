@@ -28,7 +28,7 @@ body {
     height: auto;
   }
   
-  .form-container {
+  .form-containerlogin {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -49,12 +49,12 @@ body {
   
   .text-overlay {
     position: absolute;
-    top: 20%; /* Position the text vertically at the center */
-    left: 20%; /* Align the text to the left */
-    transform: translateY(-50%); /* Offset to center it vertically */
+    top: 20%; 
+    left: 20%; 
+    transform: translateY(-50%); 
     color: white;
-    font-size: 50px; /* Customize text size */
+    font-size: 50px; 
     font-weight: bold;
-    padding: 10px; /* Padding around the text */
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: background to make text readable */
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5); 
   }

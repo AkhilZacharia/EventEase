@@ -51,13 +51,36 @@ function verifyAdmin(req,res,next){
 router.get('/users',verifyAdmin,async (req,res)=>{ 
   try{
 
-  const UserA = await userModel.find({approved:true});
+  const UserA = await userModel.find({approved:true,Email:{ $ne:'admin@abc.com'}});
   const UserUn = await userModel.find({approved:false});
   console.log(UserUn);
   
   res.status(200).send({UserA,UserUn});
   } catch (error){
     res.send({message:'Users not found'});
+  }
+});
+
+router.get('/approve-user/:id',verifyAdmin,async (req,res)=>{ 
+  try{
+    
+  const Event = await userModel.findByIdAndUpdate(req.params.id,{approved:true});
+  console.log(Event);
+  
+  res.status(200).send({message:'Success'});
+  } catch (error){
+    res.send({message:' not found'});
+  }
+});
+
+router.get('/block-user/:id',verifyAdmin,async (req,res)=>{ 
+  try{
+    
+  const Event = await userModel.findByIdAndUpdate(req.params.id,{approved:false});
+  console.log(Event);
+  res.status(200).send({message:'Success'});
+  } catch (error){
+    res.send({message:' not found'});
   }
 });
 
@@ -96,6 +119,24 @@ router.get('/block-event/:id',verifyAdmin,async (req,res)=>{
     res.send({message:' not found'});
   }
 });
+/**** delete ***/
+router.delete('/delete/:id',verifyAdmin, async (req, res) => {
+  try {
+    const eventdata = await eventModel.findByIdAndDelete(req.params.id);
+    res.send({message:'Deleted'})
+  } catch (error) {
+    res.status(404).send({message:'Delete UNSuccessful'});
+  }
+});
+
+router.delete('/delete/user/:id',verifyAdmin, async (req, res) => {
+  try {
+   const userdata = await userModel.findByIdAndDelete(req.params.id);
+    res.send({message:'Deleted'})
+  } catch (error) {
+    res.status(404).send({message:'Delete UNSuccessful'});
+  }
+});
 
 // router.put('/edit/:id',verifyAdmin, async (req,res)=>{
 //     try{
@@ -107,14 +148,6 @@ router.get('/block-event/:id',verifyAdmin,async (req,res)=>{
 // });
 
 
-/**** delete ***/
-router.delete('/delete/:id',verifyAdmin, async (req, res) => {
-  try {
-    const eventdata = await eventModel.findByIdAndDelete(req.params.id);
-    res.send({message:'Deleted'})
-  } catch (error) {
-    res.status(404).send({message:'Delete UNSuccessful'});
-  }
-});
+
 
 module.exports = router;

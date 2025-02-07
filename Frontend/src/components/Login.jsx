@@ -51,11 +51,11 @@ const Login = () => {
           // console.log(decoded);  
        if(decoded.Role=='Admin') {
         console.log('Admin');
-          navigate('/admindashboard');
+          navigate('/approveuser');
        }
        else if(decoded.Role =="Organizer") {
         console.log("organizer");
-          navigate('/homeorg');
+          navigate('/myevents');
         }
         else if(decoded.Role =="User"){
           console.log('User');
@@ -81,7 +81,7 @@ const Login = () => {
             <img src="https://soco-images.s3.ap-south-1.amazonaws.com/e5bf77f8711723873988b959e2051dc0.jpeg" alt="Event" className="login-image" />
             <h1 className="text-overlay">EventEase</h1>
           </Grid2>
-          <Grid2 item xs={12} sm={6} className="form-container">
+          <Grid2 item xs={12} sm={6} className="form-containerlogin ">
             <Box
               component="form"
               sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: 3 }}

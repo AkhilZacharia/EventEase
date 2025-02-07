@@ -7,12 +7,13 @@
 
 /* Navbar Styles */
 .navbar {
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #533434;
-  color: #fff;
+  padding: 5px;
+  padding-top: 5px;
+ 
   font-family: Arial, sans-serif;
   position: fixed;
   top: 0;

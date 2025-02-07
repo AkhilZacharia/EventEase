@@ -6,6 +6,7 @@ const routes= require('./routes/router');
 const userRoutes= require('./routes/userRoute');
 const organizerRoutes= require('./routes/organizerRoute');
 const loginRoutes= require('./routes/loginRoute');
+const paymentRoutes= require('./payment/paymentController');
 
 const cors= require('cors');
 app.use(cors());
@@ -16,7 +17,7 @@ app.use("/",routes);
 app.use("/user",userRoutes);
 app.use("/org",organizerRoutes);
 app.use("/login",loginRoutes);
-
+app.use("/payment",paymentRoutes);
 
 require('dotenv').config();
 require('./db/connectiondb');
