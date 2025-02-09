@@ -6,7 +6,7 @@ const EventBook = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const message = location.state?.data;
-  console.log(message);
+  // console.log(message);
   
     const [showBookingForm, setShowBookingForm] = useState(false);
     const [numTickets, setNumTickets] = useState(1);
@@ -22,9 +22,14 @@ const EventBook = () => {
     };
     
     const goToPayment = () => {
-      const message = calculateTotalPrice() ;
-      console.log('EventBook',message);
-      navigate('/payment', { state: { message } });
+      const detail = {
+        amount:calculateTotalPrice(),
+        tickets: numTickets,
+        event_id:message._id,
+        event:message.title
+      }
+      console.log('home',detail);
+      navigate('/payment', { state: detail });
     };
 
    return (
@@ -58,7 +63,7 @@ const EventBook = () => {
               <hr />
 
               <div className="ticket-price">
-                <span>From {message.ticketPrice} onwards</span>
+                <span>From ₹ {message.ticketPrice} onwards</span>
               </div>
 
               <button className="buy-now" onClick={() => setShowBookingForm(true)}>

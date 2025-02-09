@@ -4,6 +4,7 @@ routerO.use(express.json());
 routerO.use(express.urlencoded({extended:true}));
 const eventModel = require('../model/eventData');
 const bookingModel = require('../model/bookingData');
+const counterModel = require('../model/ticketCounter');
 
 const jwt= require('jsonwebtoken');
 
@@ -47,6 +48,14 @@ routerO.post('/addevent',verifyOrganizer,async (req,res)=>{
                 const item = req.body;
                 const eventdata = new eventModel({...item,userId:user.User});
                 await eventdata.save();
+                const data = {
+                  TotalTickets:eventdata.totalTickets,
+                  available:eventdata.totalTickets,
+                  eventId: eventdata._id.toString(),
+                  userId:user.User
+                }
+                const counterdata = new counterModel(data);
+                await counterdata.save();
                 res.status(200).send({message:'Added'});
               } catch (error) {
                 console.log(error);

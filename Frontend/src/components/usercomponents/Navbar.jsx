@@ -44,7 +44,7 @@ const Navbar = ({child}) => {
                 <a className="nav-link active" aria-current="page" href="/home2">Home@2</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/eventbook">Event</a>
+                <a className="nav-link" href="/mybooking">Bookings</a>
               </li>
               {/* <li className="nav-item dropdown">
                 <a 

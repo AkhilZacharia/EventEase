@@ -32,7 +32,7 @@ const EventForm = () => {
     console.log(form);
     axiosInstance.post('/org/addevent/',form).then((res)=>{
      alert(res.data.message);
-        navigate('/home');
+        navigate('/myevents');
     }).catch((error)=>{
      alert('Failed');
     })

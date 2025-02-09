@@ -1,11 +1,27 @@
 const express = require('express');
-const stripe = require('stripe')('sk_test_51QoqaxG2dIymtWxM0EBtlMnGihU5ACbOYI9mAVVBKxilEc1NJH1sqw3q59PpS13Iteju0lQfcj63qUpx7pkI3TTv00GKFQnxDF'); // Replace with your Stripe Secret Key
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require('body-parser');
 const paymentRouter = express.Router(); 
+const jwt= require('jsonwebtoken');
 paymentRouter.use(bodyParser.json());
 
+function userAccess(req,res,next){
+  let token=req.headers.token;
+  try {
+    if(!token) throw 'Unauthorised access';
+    else{
+        let payload=jwt.verify(token,'User') || jwt.verify(token,'Organizer') ;
+        if(!payload) throw 'Unauthorized access';
+        next();                                 
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  
+}
 
-paymentRouter.post('/create-payment-intent', async (req, res) => {
+paymentRouter.post('/create-payment-intent',userAccess, async (req, res) => {
     console.log('hi'); 
   try {
     const { amount } = req.body; 

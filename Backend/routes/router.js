@@ -53,7 +53,7 @@ router.get('/users',verifyAdmin,async (req,res)=>{
 
   const UserA = await userModel.find({approved:true,Email:{ $ne:'admin@abc.com'}});
   const UserUn = await userModel.find({approved:false});
-  console.log(UserUn);
+  // console.log(UserUn);
   
   res.status(200).send({UserA,UserUn});
   } catch (error){

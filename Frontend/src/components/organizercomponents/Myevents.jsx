@@ -35,8 +35,8 @@ const Myevents = () => {
     if (!selectedEvent) return null;
 
     const { title, totalTickets, date, location, poster } = selectedEvent;
-    const eventBookings = bookings.filter(booking => booking.eventId === selectedEvent._id);
-    const ticketsSold = eventBookings.reduce((acc, booking) => acc + parseInt(booking.ticketsBooked, 10), 0);
+    const eventBookings = bookings.filter(booking => booking.event_id === selectedEvent._id);
+    const ticketsSold = eventBookings.reduce((acc, booking) => acc + parseInt(booking.tickets, 10), 0);
     const ticketsRemaining = totalTickets - ticketsSold;
 
     return (
@@ -91,7 +91,7 @@ const Myevents = () => {
               <TableRow key={index}>
                 <TableCell>{booking.userId}</TableCell>
                 <TableCell>{booking.userName || 'N/A'}</TableCell>
-                <TableCell>{booking.ticketsBooked}</TableCell>
+                <TableCell>{booking.tickets}</TableCell>
               </TableRow>
             ))}
           </TableBody>
