@@ -34,7 +34,7 @@ const PaymentForm = ({ amount, booking }) => {
         const bookingDetails = { amount, transactionId: result.paymentIntent.id, ...booking };
         await axiosInstance.post('/mail/', bookingDetails)
           .then((response) => {
-            window.location.href = '/home2';  
+            window.location.href = '/mybooking';  
           })
           .catch((error) => {
             console.error('Failed to send booking details:', error);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Paper, Typography, Box, Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import { Grid2 } from '@mui/material';
+import { Grid2, Paper, Typography, Box, Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import axiosInstance from '../interceptor/axiosInterceptor';
+import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaTimes } from 'react-icons/fa';
 
 const Myevents = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -59,7 +59,7 @@ const Myevents = () => {
             color: '#fff',
             textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
             textAlign: 'center',
-            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' }  
+            fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' }
           }}>
             {title}
           </Typography>
@@ -69,7 +69,7 @@ const Myevents = () => {
           display: 'flex',
           justifyContent: 'space-around',
           marginTop: 3,
-          flexDirection: { xs: 'column', sm: 'row' },  
+          flexDirection: { xs: 'column', sm: 'row' },
           gap: 2
         }}>
           <Button variant="outlined" color="primary" sx={{ flex: 1 }}>Total Tickets: {totalTickets}</Button>
@@ -108,12 +108,12 @@ const Myevents = () => {
   return (
     <Grid2 container spacing={3} justifyContent="center" sx={{ padding: 3 }}>
       {selectedEvent ? (
-        <Grid item xs={12} sm={8} md={6}>
+        <Grid2 item xs={12} sm={8} md={6}>
           {renderEventDetails()}
-        </Grid>
+        </Grid2>
       ) : (
         events.map((event) => (
-          <Grid item xs={12} sm={6} md={4} key={event._id}>
+          <Grid2 item xs={12} sm={6} md={3} key={event._id}>
             <Paper sx={{
               padding: 3,
               backgroundColor: '#f7f7f7',
@@ -123,47 +123,55 @@ const Myevents = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
+              minHeight: '300px', // Ensure equal height
               height: '100%',
+              width: '100%'  // Ensuring equal width
             }}>
-              {/* Background Image for Event Card */}
+              <Typography variant="h6" sx={{
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginBottom: 1
+              }}>
+                {event.title}
+              </Typography>
               <Box sx={{
                 backgroundImage: `url(${event.poster})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                padding: 2,
-                borderRadius: '10px',
                 height: '150px',
-                marginBottom: 2,
-              }}>
-                <Typography variant="h6" sx={{
-                  fontWeight: 'bold',
-                  color: '#fff',
-                  textAlign: 'center',
-                  textShadow: '2px 2px 4px rgba(0, 0, 0, 0.6)',
-                  fontSize: { xs: '1rem', sm: '1.2rem', md: '1.5rem' }  
-                }}>
-                  {event.title}
+                borderRadius: '10px',
+                marginBottom: 2
+              }} />
+              <Box sx={{ padding: 1, textAlign: 'center' }}>
+                <Typography variant="body2" color="textSecondary">
+                 <FaCalendarAlt/> {new Date(event.date).toDateString()}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                 <FaClock/> {event.time}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  <FaMapMarkerAlt/>{event.location}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Category: {event.category}
                 </Typography>
               </Box>
-              <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center' }}>
-                {new Date(event.date).toLocaleDateString()}
-              </Typography>
               <Button
-                variant="outlined"
-                color="secondary"
+                variant="contained"
+                color="primary"
                 onClick={() => handleEventClick(event._id)}
                 sx={{
-                  marginTop: 2,
+                  marginTop: 'auto',
                   display: 'block',
                   margin: '0 auto',
                   width: '100%',
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}
               >
-                View Details
+                View Booking Details
               </Button>
             </Paper>
-          </Grid>
+          </Grid2>
         ))
       )}
     </Grid2>

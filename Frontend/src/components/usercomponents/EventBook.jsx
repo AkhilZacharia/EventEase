@@ -1,90 +1,92 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { FaMusic, FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt } from 'react-icons/fa';
-import './EventBook.css';
+import styles from './EventBook.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 const EventBook = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const message = location.state?.data;
-  // console.log(message);
-  
-    const [showBookingForm, setShowBookingForm] = useState(false);
-    const [numTickets, setNumTickets] = useState(1);
-    
-    const ticketPrice = message.ticketPrice; 
-    
-    const handleTicketChange = (event) => {
-      setNumTickets(event.target.value);
+
+  const [showBookingForm, setShowBookingForm] = useState(false);
+  const [numTickets, setNumTickets] = useState(1);
+
+  const ticketPrice = message.ticketPrice;
+
+  const handleTicketChange = (event) => {
+    setNumTickets(event.target.value);
+  };
+
+  const calculateTotalPrice = () => {
+    return numTickets * ticketPrice;
+  };
+
+  const goToPayment = () => {
+    const detail = {
+      amount: calculateTotalPrice(),
+      tickets: numTickets,
+      event_id: message._id,
+      event: message.title,
     };
-  
-    const calculateTotalPrice = () => {
-      return numTickets * ticketPrice;
-    };
-    
-    const goToPayment = () => {
-      const detail = {
-        amount:calculateTotalPrice(),
-        tickets: numTickets,
-        event_id:message._id,
-        event:message.title
-      }
-      console.log('home',detail);
-      navigate('/payment', { state: detail });
-    };
+    console.log('home', detail);
+    navigate('/payment', { state: detail });
+  };
 
-   return (
-    <div className="event-page">
-      {!showBookingForm ? ( <>
-        <div className="content">
-          <div className="image-container">
-            <img src="/img/5457716.jpg" alt="Event" />
-          </div>
+  const eventDate = new Date(message.date);
+  const formattedDate = eventDate.toDateString();
 
-          <div className="event-info">
-            <div className="event-details">
-              <div className="banner">
-            <h3>{message.title}</h3>
+  return (
+    <div className={styles.eventPage}>
+      {!showBookingForm ? (
+        <>
+          <div className={styles.content}>
+            <div className={styles.imageContainer}>
+              <img src={message.poster} alt="Event" />
+            </div>
+
+            <div className={styles.eventInfo}>
+              <div className={styles.eventDetails}>
+                <div className={styles.banner}>
+                  <h3>{message.title}</h3>
+                </div>
+                <div className={styles.eventItem}>
+                  <FaMusic className={styles.eventIcon} />
+                  <span>{message.category}</span>
+                </div>
+
+                <div className={styles.eventItem}>
+                  <FaCalendarAlt className={styles.eventIcon} />
+                  <span>{formattedDate} | {message.time}</span>
+                </div>
+
+                <div className={styles.eventItem}>
+                  <FaMapMarkerAlt className={styles.eventIcon} />
+                  <span>{message.location}</span>
+                </div>
+
+                <hr />
+
+                <div className={styles.ticketPrice}>
+                  <span>From ₹ {message.ticketPrice} onwards</span>
+                </div>
+
+                <button className={styles.buyNow} onClick={() => setShowBookingForm(true)}>
+                  BOOK NOW
+                </button>
               </div>
-              <div className="event-item">
-                <FaMusic className="event-icon" />
-                <span>{message.category}</span>
-              </div>
-
-              <div className="event-item">
-                <FaCalendarAlt className="event-icon" />
-                <span>{message.date} | {message.time}</span>
-              </div>
-
-              <div className="event-item">
-                <FaMapMarkerAlt className="event-icon" />
-                <span>{message.title}</span>
-              </div>
-
-              <hr />
-
-              <div className="ticket-price">
-                <span>From ₹ {message.ticketPrice} onwards</span>
-              </div>
-
-              <button className="buy-now" onClick={() => setShowBookingForm(true)}>
-                BOOK NOW
-              </button>
             </div>
           </div>
-          
-        </div>
-        <div className="event-description">
-        <h3>Event Details</h3>
-        <p>
-        {message.details}
-        </p>
-      </div>
+
+          <div className={styles.eventDescription}>
+            <h3>Event Details</h3>
+            <p>{message.details}</p>
+          </div>
         </>
       ) : (
-        <div className="booking-form">
+        <div className={styles.bookingForm}>
           <h2>Booking Details</h2>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="ticket-count">Number of Tickets:</label>
             <input
               type="number"
@@ -95,20 +97,21 @@ const EventBook = () => {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <h3>Total Price: ₹{calculateTotalPrice()}</h3>
           </div>
 
-          <button className="back-button" onClick={() => setShowBookingForm(false)}>
+          <button className={styles.backButton} onClick={() => setShowBookingForm(false)}>
             BACK
           </button>
 
-          <button className="confirm-booking" onClick={() => goToPayment()}>Confirm Booking</button>
+          <button className={styles.confirmBooking} onClick={() => goToPayment()}>
+            Confirm Booking
+          </button>
         </div>
       )}
-
     </div>
   );
 };
 
-export default EventBook
+export default EventBook;

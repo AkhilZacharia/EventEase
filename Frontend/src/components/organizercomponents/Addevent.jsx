@@ -1,108 +1,130 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Grid2, Box, Input, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from '../interceptor/axiosInterceptor';
-
-import './Addevnt.css';
+import axios from 'axios';
+import styles from './Addevnt.module.css';
 
 const EventForm = () => {
-  const[form,setForm]=useState({  
+  const [form, setForm] = useState({
     title: '',
-    date: "",
-    category: "",
-    time: "",
-    duration: "",
-    details:"",
-    location: "",
-    totalTickets: 0,
-    ticketPrice: 0,
-    poster: ""
-  }) 
+    date: '',
+    category: '',
+    time: '',
+    duration: '',
+    details: '',
+    location: '',
+    totalTickets: '',
+    ticketPrice: '',
+    poster: ''
+  });
+  const [file, setFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setImagePreview(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
+    }
+  }, [file]);
+
+  const fileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (name === 'ticketPrice') {
+      if (value < 50) {
+        setError('Ticket price must be at least 50');
+      } else {
+        setError('');
+      }
+    }
   };
-  const navigate=useNavigate();
 
-  function addevent(){
-    console.log(form);
-    axiosInstance.post('/org/addevent/',form).then((res)=>{
-     alert(res.data.message);
-        navigate('/myevents');
-    }).catch((error)=>{
-     alert('Failed');
-    })
-   }
+  const upload = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "EventEase");
+    try {
+      const response = await axios.post("https://api.cloudinary.com/v1_1/dhbu40pkf/image/upload", formData);
+      return response.data.secure_url;
+    } catch (error) {
+      console.error("Upload Error:", error);
+    }
+  };
+
+  const addevent = async (e) => {
+    e.preventDefault();
+    if (form.ticketPrice < 50) {
+      setError("Ticket price must be at least 50");
+      return;
+    }
+    try {
+      const imgUrl = await upload(file);
+      const updatedForm = { ...form, poster: imgUrl };
+      await axiosInstance.post('/org/addevent/', updatedForm);
+      alert('Event added successfully');
+      navigate('/myevents');
+    } catch (error) {
+      alert('Failed to add event');
+      console.error(error);
+    }
+  };
 
   return (
-    <Box className="container">
-      <Typography variant="h3" className="title">
-        Add Event
-      </Typography>
-      <Box className="formContainer">
+    <Box className={styles.eventContainer}>
+      <Typography variant="h4" className={styles.eventTitle}>Add Event</Typography>
+      <Box className={styles.eventFormWrapper}>
         <Grid2 container spacing={2}>
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Event Title" variant="outlined" name="title" value={form.title} onChange={handleChange} fullWidth className="input" />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Event Title" name="title" onChange={handleChange} fullWidth required/>
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Category" variant="outlined" name="category" value={form.category} onChange={handleChange} fullWidth className="input" />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Category" name="category" onChange={handleChange} fullWidth required/>
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Date" type="date" variant="outlined" name="date" value={form.date} onChange={handleChange} fullWidth className="input" InputLabelProps={{ shrink: true }} />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Date" type="date" InputLabelProps={{ shrink: true }} name="date" onChange={handleChange} fullWidth required />
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Time" type="time" variant="outlined" name="time" value={form.time} onChange={handleChange} fullWidth className="input" InputLabelProps={{ shrink: true }} />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Time" type="time" inputProps={{ step: 300 }} InputLabelProps={{ shrink: true }} name="time" onChange={handleChange} fullWidth required />
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Duration" variant="outlined" name="duration" value={form.duration} onChange={handleChange} fullWidth className="input" />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Duration" name="duration" placeholder="2hr" onChange={handleChange} fullWidth required/>
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Location" variant="outlined" name="location" value={form.location} onChange={handleChange} fullWidth className="input" />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Location" name="location" onChange={handleChange} fullWidth required/>
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Total Tickets" type="number" name="totalTickets" value={form.totalTickets} onChange={handleChange} variant="outlined" fullWidth className="input" />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Total Tickets" type="number" name="totalTickets" onChange={handleChange} fullWidth required/>
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <TextField label="Ticket Price" type="number" variant="outlined" name="ticketPrice" value={form.ticketPrice} onChange={handleChange} fullWidth className="input" />
+          <Grid2 item xs={12} sm={6} className={styles.inputField}>
+            <TextField label="Ticket Price" type="number" name="ticketPrice" onChange={handleChange} fullWidth required/>
+            {error && <Typography className={styles.error}>{error}</Typography>}
           </Grid2>
-
-          <Grid2 item xs={12} sm={6} md={4}>
-            <Typography variant="body1" className="posterLabel">
-              Upload Event Poster
-            </Typography>
-            <Input type="file" name="poster" value={form.poster} onChange={handleChange} className="posterInput" />
+          <Grid2 item xs={12} className={styles.uploadField}>
+            <Typography variant="body1">Upload Event Poster</Typography>
+            <Input type="file" name="poster" onChange={fileChange} required/>
+            {imagePreview && <img src={imagePreview} alt="Preview" className={styles.imagePreview} />}
           </Grid2>
-
-          <Grid2 item xs={12}>
-            <TextField
-              label="Details"
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={6}
-              name="details" value={form.details} onChange={handleChange}
-              className="textArea"
-            />
+          <Grid2 item xs={12} className={styles.inputField}>
+            <TextField label="Details" multiline rows={4} name="details" onChange={handleChange} fullWidth required/>
           </Grid2>
-
-          <Grid2 item xs={12}>
-            <Button variant="contained" color="primary" fullWidth className="submitButton" onClick={addevent}>
-              Submit Event
-            </Button>
+          <Grid2 item xs={12} className={styles.submitButtonWrapper}>
+            
           </Grid2>
         </Grid2>
+        <Button variant="contained" color="primary" fullWidth onClick={addevent} >
+              Submit Event
+            </Button>
       </Box>
+      
     </Box>
   );
 };

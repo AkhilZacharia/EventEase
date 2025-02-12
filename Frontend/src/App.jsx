@@ -3,8 +3,8 @@ import './App.css'
 // import AdminDashboard from './components/admincomponents/AdminDashboard';
 import EventPage from './components/usercomponents/Sample';
 // import SeatSelection from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './components/Default/Login';
+import Register from './components/Default/Register';
 import { Route, Routes } from 'react-router-dom'
 import EventForm from './components/organizercomponents/Addevent';
 import NavbarOrganizer from './components/organizercomponents/NavbarOrganizer';
@@ -20,6 +20,8 @@ import Navbar from './components/usercomponents/Navbar';
 import EventBook from './components/usercomponents/EventBook';
 import Home from './components/usercomponents/Home';
 import MyBookings from './components/usercomponents/MyBookings';
+import Homeorganizer from './components/organizercomponents/Homeorganizer';
+import Details from './components/organizercomponents/Details';
 // import AdminDashboard from './components/AdminDashboard';
 
 function App() {
@@ -42,13 +44,14 @@ function App() {
           </Route>
 
           <Route element={<OrganizerRoutes />}>
+            <Route path='/homeO' element={<NavbarOrganizer child={ <Homeorganizer />}/>}></Route>
+            <Route path='/details' element={<NavbarOrganizer child={ <Details />}/>}></Route>
             <Route path='/myevents' element={<NavbarOrganizer child={  <Myevents />}/>}></Route>
             <Route path='/eventform' element={<NavbarOrganizer child={ <EventForm />}/>}></Route>
           </Route>
 
           <Route element={<UserRoutes/>}>
-            <Route path='/home' element={<Navbar child={ <EventPage />}/>}></Route>
-            <Route path='/home2' element={<Navbar child={ <Home />}/>}></Route>
+            <Route path='/home' element={<Navbar child={ <Home />}/>}></Route>
             <Route path='/mybooking' element={<Navbar child={ <MyBookings />}/>}></Route>
             <Route path='/eventbook' element={<Navbar child={<EventBook/>}/>}></Route>
             <Route path='/payment' element={ <Payment/>}></Route>

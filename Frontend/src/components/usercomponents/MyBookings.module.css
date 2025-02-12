@@ -3,6 +3,8 @@
     justify-content: center;
     align-items: center;
     margin: 20px;
+    flex-direction: column;
+    gap: 20px; 
   }
   
   .ticket {
@@ -10,7 +12,7 @@
     width: 500px;
     border: 2px solid #000;
     border-radius: 10px;
-    background: #f8e6e6;
+    background: #f6f8e3;
     font-family: Arial, sans-serif;
     overflow: hidden;
   }

@@ -38,7 +38,7 @@ const NavbarOrganizer = ({child}) => {
             </div>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#home">Events</a>
+                <a className="nav-link active" aria-current="page" href="/homeO">Events</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/myevents">My Event</a>

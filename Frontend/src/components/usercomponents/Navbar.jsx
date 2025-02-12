@@ -41,28 +41,9 @@ const Navbar = ({child}) => {
                 <a className="nav-link active" aria-current="page" href="/home">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/home2">Home@2</a>
-              </li>
-              <li className="nav-item">
                 <a className="nav-link" href="/mybooking">Bookings</a>
               </li>
-              {/* <li className="nav-item dropdown">
-                <a 
-                  className="nav-link dropdown-toggle" 
-                  href="#" 
-                  role="button" 
-                  data-bs-toggle="dropdown" 
-                  aria-expanded={isNavOpen ? "true" : "false"}
-                >
-                  Link
-                </a>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="#">Action</a></li>
-                  <li><a className="dropdown-item" href="#">Another action</a></li>
-                  <li><hr className="dropdown-divider" /></li>
-                  <li><a className="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li> */}
+              
               <li className="nav-item">
                 <a className="nav-link " onClick={Logout}>Log Out</a>
               </li>

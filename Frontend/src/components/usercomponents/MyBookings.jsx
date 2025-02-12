@@ -30,13 +30,14 @@ const MyBookings = () => {
     <div className={styles.ticketContainer}>
       {bookings.map((booking) => {
         const event = events.find((e) => e._id === booking.event_id);
-
+        const eventDate = new Date(event.date);
+        const formattedDate = eventDate.toDateString();
         return (
           <div key={booking._id} className={styles.ticket}>
             <div className={styles.ticketleft}>
               <h3 className={styles.eventName}>{event.title}</h3>
               <p className={styles.venue}>{event.location}</p>
-              <p className={styles.dateTime}>{event.date} - {event.time}</p>
+              <p className={styles.dateTime}>{formattedDate} - {event.time}</p>
               <div className={styles.seatInfo}>
                 <span>Row: {getSeat()}</span>
                 <span>Seat: {getRow()}</span>

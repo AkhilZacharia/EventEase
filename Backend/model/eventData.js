@@ -10,7 +10,7 @@ const eventSchema = new mongoose.Schema({
   location: { type: String, required: true },
   totalTickets: { type: Number, required: true },
   ticketPrice: { type: Number, required: true },
-  poster: String,
+  poster: { type: String, required: true },
   userId: { type: String, required: true },
   approved: { type: Boolean, default: false },
 });
