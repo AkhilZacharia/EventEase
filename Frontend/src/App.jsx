@@ -22,6 +22,8 @@ import Home from './components/usercomponents/Home';
 import MyBookings from './components/usercomponents/MyBookings';
 import Homeorganizer from './components/organizercomponents/Homeorganizer';
 import Details from './components/organizercomponents/Details';
+import AdminDashboard from './components/admincomponents/AdminDashboard';
+import EvntDetails from './components/admincomponents/EvntDetails';
 // import AdminDashboard from './components/AdminDashboard';
 
 function App() {
@@ -39,6 +41,8 @@ function App() {
           <Route path='/register' element={<Register/>}></Route>
         
           <Route element={<AdminRoutes/>}>
+          <Route path='/hom' element={<AdminNavbar child={ <AdminDashboard />}/>}></Route>
+          <Route path='/det' element={<AdminNavbar child={ <EvntDetails />}/>}></Route>
             <Route path='/approveUser' element={<AdminNavbar child={ <ApproveUser />}/>}></Route>
             <Route path='/approveEvent' element={<AdminNavbar child={ <ApproveEvent />}/>}></Route>
           </Route>

@@ -38,13 +38,13 @@ const AdminNavbar = ({child}) => {
             </div>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#home">Events</a>
+                <a className="nav-link active" aria-current="page" href="/hom">Events</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="/approveUser">Users</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/approveEvent">Events</a>
+                <a className="nav-link" href="/approveEvent">Approve Events</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link "  onClick={Logout}>Log Out</a>

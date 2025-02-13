@@ -9,7 +9,7 @@ const AdminDashboard = () => {
     const [events, setEvents] = useState([]);
   
     useEffect(() => {
-      axiosInstance.get('/user/home/').then((res) => {  
+      axiosInstance.get('/home/').then((res) => {  
         console.log(res.data);
         setEvents(res.data); 
       }).catch((error) => {
@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   
     const book = (eventId) => {
       const event = events.find((event) => event._id === eventId);
-      navigate('/eventbook', {state: { data:event }});
+      navigate('/det', {state: { data:event }});
     };
 
    
@@ -103,4 +103,4 @@ const AdminDashboard = () => {
     );
 }
 
-export default AdminDashboard;
+export default AdminDashboard

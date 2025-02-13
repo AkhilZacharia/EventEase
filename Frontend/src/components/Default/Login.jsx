@@ -1,21 +1,20 @@
 import React, { useState} from 'react';
-import { TextField, Button, Container, Typography, Box, Grid2, Paper, CssBaseline } from '@mui/material';
-import './Login.module.css';
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 import { Link, useNavigate } from "react-router-dom";
-
+import { TextField, Button, Typography, Box, Grid2, Paper } from '@mui/material';
+import styles from './Login.module.css';
 
 const Login = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const[form,setForm]=useState({
-    Email:'',
-    Password:''
-  }) 
-  const navigate=useNavigate();
+  const [form, setForm] = useState({
+    Email: '',
+    Password: '',
+  });
+  const navigate = useNavigate();
 
-  function validate()   {
+  const validate = () => {
     let isValid = true;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(form.Email)) {
@@ -37,74 +36,106 @@ const Login = () => {
   const login = (e) => {
     e.preventDefault();
     if (validate()) {
-      loginValue()
+      loginValue();
     }
   };
 
-  function loginValue(){
-     console.log(form);
-    axios.post('http://localhost:3000/login/',form).then((res)=>{
-     alert(res.data.message);
-     if(res.data.key){
-       sessionStorage.setItem('logintoken',res.data.key); 
-        const decoded = jwtDecode(res.data.key);
-          // console.log(decoded);  
-       if(decoded.Role=='Admin') {
-        console.log('Admin');
-          navigate('/approveuser');
-       }
-       else if(decoded.Role =="Organizer") {
-        console.log("organizer");
-          navigate('/myevents');
+  const loginValue = () => {
+    console.log(form);
+    axios
+      .post('http://localhost:3000/login/', form)
+      .then((res) => {
+        alert(res.data.message);
+        if (res.data.key) {
+          sessionStorage.setItem('logintoken', res.data.key);
+          const decoded = jwtDecode(res.data.key);
+          if (decoded.Role === 'Admin') {
+            navigate('/approveuser');
+          } else if (decoded.Role === 'Organizer') {
+            navigate('/myevents');
+          } else if (decoded.Role === 'User') {
+            navigate('/home');
+          }
+        } else {
+          navigate('/');
         }
-        else if(decoded.Role =="User"){
-          console.log('User');
-           navigate('/home');
-        }
-        }else {
-            navigate('/');
-        }
-        
-    }).catch((error)=>{
-      console.log(error);
-      
-     alert('Invalid Login');
-    })
-   }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Invalid Login');
+      });
+  };
 
   return (
-    <Container component="main" maxWidth="md">
-      <CssBaseline />
-      <Paper elevation={6} className="login-box">
+    <div className={styles.container}>
+      {/* Welcome Message */}
+      <Typography variant="h2" component="h1" align="center" className={styles.welcomeMessage}>
+        EventEase
+      </Typography>
+
+      {/* Login Container */}
+      <Paper elevation={6} className={styles.loginContainer}>
         <Grid2 container>
-          <Grid2 item xs={12} sm={6} className="image-container">
-            <img src="https://soco-images.s3.ap-south-1.amazonaws.com/e5bf77f8711723873988b959e2051dc0.jpeg" alt="Event" className="login-image" />
-            <h1 className="text-overlay">EventEase</h1>
-          </Grid2>
-          <Grid2 item xs={12} sm={6} className="form-containerlogin ">
-            <Box
-              component="form"
-              sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: 3 }}
-            >
-              <Typography variant="h4" component="h1" gutterBottom>
+          {/* Form Section */}
+          <Grid2 item xs={12} md={6} className={styles.formSection}>
+            <Box component="form" className={styles.form} onSubmit={login}>
+              <Typography variant="h4" component="h1" gutterBottom className={styles.title}>
                 Login
               </Typography>
-              <TextField label="Email" name="Email" type="email"  required onChange={(e)=>{
-          setForm({...form,Email:e.target.value})                     
-        }}/><p style={{color:'maroon'}}>{emailError}</p>
-              <TextField label="Password" name="Password" type="password"   required onChange={(e)=>{
-          setForm({...form,Password:e.target.value})                    
-        }} /><p style={{color:'maroon'}}>{passwordError}</p> 
-              <Button variant="contained" color="primary" onClick={login}> Login </Button> 
-              <Button variant="outlined" color="secondary" type="button" fullWidth href='/register'>
+              <TextField
+                label="Email"
+                name="Email"
+                type="email"
+                required
+                fullWidth
+                onChange={(e) => setForm({ ...form, Email: e.target.value })}
+                className={styles.input}
+              />
+              <p className={styles.error}>{emailError}</p>
+              <TextField
+                label="Password"
+                name="Password"
+                type="password"
+                required
+                fullWidth
+                onChange={(e) => setForm({ ...form, Password: e.target.value })}
+                className={styles.input}
+              />
+              <p className={styles.error}>{passwordError}</p>
+              <Button variant="contained" type="submit" className={styles.loginButton}>
+                Login
+              </Button>
+              <Button
+                variant="outlined"
+                component={Link}
+                to="/register"
+                className={styles.registerButton}
+              >
                 Register
               </Button>
             </Box>
           </Grid2>
+
+          
+          <Grid2 item xs={12} md={6} className={styles.imageSection}>
+            <img
+              src="/img/aud.jpg"
+              alt="Event"
+              className={styles.image}
+            />
+          </Grid2>
         </Grid2>
       </Paper>
-    </Container>
+
+      {/* Footer */}
+      <footer className={styles.footer}>
+        <Typography variant="body2" align="center">
+          &copy; 2023 EventEase. All rights reserved.
+        </Typography>
+      </footer>
+    </div>
   );
-}
+};
+
 
 export default Login;

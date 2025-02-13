@@ -147,6 +147,15 @@ router.delete('/delete/user/:id',verifyAdmin, async (req, res) => {
 //     }
 // });
 
+router.get('/home/',verifyAdmin, async (req, res) => {
+try {
+   const Data = await eventModel.find({approved:true});
+  //  console.log(Data)
+   res.send(Data)
+} catch (error) {
+  res.status(404).send('data not found');
+}
+});
 
 
 

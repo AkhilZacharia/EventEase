@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, MenuItem, Select, FormControl, InputLabel, Button, Box } from '@mui/material';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from './Register.module.css'; // Updated import for CSS Module
 
@@ -46,6 +46,19 @@ const Register = () => {
   return (
     <div className={styles.registerContainer}>
       <Box container spacing={2} justifyContent="center">
+      <Box item xs={12} sm={6} md={6} className={styles.description}>
+          <h3>Welcome to Our Platform</h3>
+          <p>Join us today to enjoy a seamless experience for event booking and enjoying the awesome experience.</p>
+          <span>Already have an account ? </span>
+          <Button
+                variant="outlined"
+                component={Link}
+                to="/"
+                className={styles.registerButton}
+              >
+                Login
+              </Button>
+        </Box>
         <Box item xs={12} sm={6} md={6} className={styles.formBox}>
           <h2>Create an Account</h2>
             <TextField
@@ -103,12 +116,7 @@ const Register = () => {
             </Button>
         </Box>
 
-        <Box item xs={12} sm={6} md={6} className={styles.description}>
-          <h3>Welcome to Our Platform</h3>
-          <p>Join us today to enjoy a seamless experience for event booking and enjoying the awesome experience.</p>
-          {/* You can add an image here if desired */}
-          {/* <img src="your-image-url.jpg" alt="Description" /> */}
-        </Box>
+        
       </Box>
     </div>
   );
