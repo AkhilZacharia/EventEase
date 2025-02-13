@@ -68,15 +68,12 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
-      {/* Welcome Message */}
       <Typography variant="h2" component="h1" align="center" className={styles.welcomeMessage}>
         EventEase
       </Typography>
 
-      {/* Login Container */}
       <Paper elevation={6} className={styles.loginContainer}>
         <Grid2 container>
-          {/* Form Section */}
           <Grid2 item xs={12} md={6} className={styles.formSection}>
             <Box component="form" className={styles.form} onSubmit={login}>
               <Typography variant="h4" component="h1" gutterBottom className={styles.title}>
@@ -127,7 +124,6 @@ const Login = () => {
         </Grid2>
       </Paper>
 
-      {/* Footer */}
       <footer className={styles.footer}>
         <Typography variant="body2" align="center">
           &copy; 2023 EventEase. All rights reserved.

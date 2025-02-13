@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, MenuItem, Select, FormControl, InputLabel, Button, Box } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import styles from './Register.module.css'; // Updated import for CSS Module
+import styles from './Register.module.css'; 
 
 const Register = () => {
   const[form,setForm]=useState({  

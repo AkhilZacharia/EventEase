@@ -123,9 +123,9 @@ const Myevents = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
-              minHeight: '300px', // Ensure equal height
+              minHeight: '300px', 
               height: '100%',
-              width: '100%'  // Ensuring equal width
+              width: '100%'  
             }}>
               <Typography variant="h6" sx={{
                 fontWeight: 'bold',

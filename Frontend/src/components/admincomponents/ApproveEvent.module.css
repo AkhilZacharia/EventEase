@@ -1,11 +1,11 @@
-/* Dashboard Container */
+
 .dashboardContainer {
   padding: 20px;
   position: relative;
   z-index: 1;
 }
 
-/* Status Tracker */
+
 .statusTracker {
   margin-bottom: 30px;
   text-align: center;
@@ -30,22 +30,20 @@
 }
 
 .pending {
-  background-color: #eeb2bb; /* Light red */
+  background-color: #eeb2bb; 
   color: #c62828;
 }
 
 .approved {
-  background-color: #b0ccb3; /* Light green */
+  background-color: #b0ccb3; 
   color: #2e7d32;
 }
 
-/* Horizontal Rule */
 .horizontalRule {
   border: 1px solid #ffffff;
   margin: 30px 0;
 }
 
-/* Section Titles */
 .sectionTitle {
   margin-top: 30px;
   margin-bottom: 20px;
@@ -53,12 +51,11 @@
   text-align: center;
 }
 
-/* Event Grid */
+
 .eventGrid {
   margin-top: 20px;
 }
 
-/* Event Card */
 .eventCard {
   padding: 20px;
   border-radius: 10px;
@@ -95,7 +92,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4); /* Dark overlay for better text visibility */
+  background: rgba(0, 0, 0, 0.4); 
   border-radius: 10px 10px 0 0;
 }
 
@@ -104,7 +101,7 @@
   margin-bottom: 10px;
 }
 
-/* Event Buttons */
+
 .eventButtons {
   display: flex;
   gap: 10px;
@@ -112,16 +109,16 @@
 }
 
 .approveButton {
-  background-color: #4caf50; /* Green */
+  background-color: #4caf50; 
   color: #fff;
 }
 
 .approveButton:hover {
-  background-color: #388e3c; /* Darker green */
+  background-color: #388e3c; 
 }
 
 .deleteButton {
-  border-color: #f44336; /* Red */
+  border-color: #f44336;
   color: #f44336;
 }
 
@@ -130,7 +127,7 @@
 }
 
 .blockButton {
-  border-color: #9c27b0; /* Purple */
+  border-color: #9c27b0; 
   color: #9c27b0;
 }
 

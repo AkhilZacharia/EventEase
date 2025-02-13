@@ -36,18 +36,7 @@ const EventPage = () => {
    }
   return (
     <div>
-      {/* <nav className="navbar">
-        <div className="navbar-logo">
-          <h2>EventBook</h2>
-        </div>
-        <ul className="navbar-links">
-          <li><a href="/home">Home</a></li>
-          <li><a href="#my-bookings">My Bookings</a></li>
-          <li><a href="/">Login</a></li>
-          <li><a href="/register">Register</a></li>
-          <li><a onClick={Logout}>Log Out</a></li>
-        </ul>
-      </nav> */}
+  
 
       <div className="event-container">
         <h2 className="event-title">Upcoming Events</h2>
