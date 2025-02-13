@@ -1,39 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Grid2, Paper, Typography, Button, Box } from '@mui/material';
+import { Grid, Paper, Typography, Button, Box, Container, Chip } from '@mui/material';
 import axiosInstance from '../interceptor/axiosInterceptor';
-import './ApproveEvent.css'; 
+import styles from './ApproveEvent.module.css'; 
 
 const ApproveEvent = () => {
   const [events, setEvents] = useState([]);
-  const [approvedUsers, setApprovedEvents] = useState([]); 
+  const [approvedEvents, setApprovedEvents] = useState([]);
   const [pendingCount, setPendingCount] = useState(0);
   const [approvedCount, setApprovedCount] = useState(0);
 
   useEffect(() => {
-    Load();
+    loadEvents();
   }, []);
 
-function Load() {
-  axiosInstance.get('/events/').then((res) => {
-    const { EventA, EventUn } = res.data;
-    setEvents(EventUn); 
-    setApprovedEvents(EventA);
-    setPendingCount(EventUn.length);
-    setApprovedCount(EventA.length);
-    // console.log(EventUn);
-    // console.log(EventA);
-    })
-    .catch((error) => {
-      console.log(error);
-      
-      alert('Failed to fetch events');
-    });
-}
+  const loadEvents = () => {
+    axiosInstance.get('/events/')
+      .then((res) => {
+        const { EventA, EventUn } = res.data;
+        setEvents(EventUn);
+        setApprovedEvents(EventA);
+        setPendingCount(EventUn.length);
+        setApprovedCount(EventA.length);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Failed to fetch events');
+      });
+  };
+
   const handleApprove = (eventId) => {
     axiosInstance.get(`/approve-event/${eventId}`)
       .then((res) => {
         alert(`Event with ID: ${eventId} has been approved`);
-        Load(); 
+        loadEvents();
       })
       .catch((error) => {
         alert('Failed to approve event');
@@ -44,110 +43,132 @@ function Load() {
     axiosInstance.delete(`/delete/${eventId}`)
       .then((res) => {
         alert(`Event with ID: ${eventId} has been deleted`);
-        Load(); 
+        loadEvents();
       })
       .catch((error) => {
         alert('Failed to delete event');
       });
   };
+
   const handleBlock = (eventId) => {
     axiosInstance.get(`/block-event/${eventId}`)
       .then((res) => {
         alert(`Event with ID: ${eventId} has been blocked`);
-        Load(); 
+        loadEvents();
       })
       .catch((error) => {
-        alert('Failed to Block event');
+        alert('Failed to block event');
       });
   };
 
   return (
-    <>
-    <Grid2 container spacing={1} justifyContent="center" className="event-Grid2">
-      {events.map((event) => (
-        <Grid2 item xs={12} sm={6} md={4} key={event._id}>
-          <Paper className="event-card">
-            <Box className="event-header">
-              <Typography variant="h6" className="event-title">{event.title}</Typography>
-              <Typography variant="body2" className="event-date">{new Date(event.date).toLocaleDateString()}</Typography>
-              <Typography variant="body2" className="event-location">{event.location}</Typography>
-              <Box className="event-status">
-                {event.approved ? 'Approved' : 'Pending'}
+    <Container className={styles.dashboardContainer}>
+      <div className={styles.backgroundImage}></div>
+
+      <Box className="text-center my-4">
+        <Typography variant="h4" className="mb-2" style={{ color: '#333' }}>
+          Event Approval Dashboard
+        </Typography>
+        <Box display="flex" justifyContent="center" gap={4}>
+          <Chip label={` Pending Events: ${pendingCount}`} color="error" />
+             <Chip label={`Approved Events:${approvedCount}`} color="success" />
+        </Box>
+      </Box>
+
+      <hr className={styles.horizontalRule} style={{ color: 'black' }} />
+
+      <Typography variant="h4" className={styles.sectionTitle} style={{  color: 'purple' }}>
+        Pending Events
+      </Typography>
+      <Grid container spacing={3} className={styles.eventGrid}>
+        {events.map((event) => (
+          <Grid item xs={12} sm={6} md={4} key={event._id}>
+            <Paper className={styles.eventCard}>
+              <Box
+                className={styles.eventHeader}
+                style={{ backgroundImage: `url(${event.poster})` }}
+              >
+                <Typography variant="h6" className={styles.eventTitle}>
+                  {event.title}
+                </Typography>
               </Box>
-            </Box>
 
-            <Typography variant="body1" className="event-details" paragraph>
-              {event.details}
-            </Typography>
+              <Typography variant="body1" className={styles.eventDetails} paragraph>
+                {event.details}
+              </Typography>
 
-            <Typography variant="body2" className="event-details">
-              <strong>Total Tickets:</strong> {event.totalTickets}
-            </Typography>
-            <Typography variant="body2" className="event-details">
-              <strong>Ticket Price:</strong> ${event.ticketPrice}
-            </Typography>
+              <Typography variant="body2" className={styles.eventDetails}>
+                <strong>Total Tickets:</strong> {event.totalTickets}
+              </Typography>
+              <Typography variant="body2" className={styles.eventDetails}>
+                <strong>Ticket Price:</strong> ₹{event.ticketPrice}
+              </Typography>
 
-            <Box className="event-buttons">
-              <Button
-                variant="contained"
-                className="approve-button"
-                onClick={() => handleApprove(event._id)}
-                disabled={event.approved}
-              >
-                Approve
-              </Button>
-              <Button
-                variant="outlined"
-                className="delete-button"
-                onClick={() => handleDelete(event._id)}
-              >
-                Delete
-              </Button>
-            </Box>
-          </Paper>
-        </Grid2>
-      ))}
-    </Grid2>
-    {/*************************************************/ }
-    <h3>Approved Events</h3>
-    <Grid2 container spacing={1} justifyContent="center" className="event-Grid2">
-      {approvedUsers.map((event) => (
-        <Grid2 item xs={12} sm={6} md={4} key={event._id}>
-          <Paper className="event-card">
-            <Box className="event-header">
-              <Typography variant="h6" className="event-title">{event.title}</Typography>
-              <Typography variant="body2" className="event-date">{new Date(event.date).toLocaleDateString()}</Typography>
-              <Typography variant="body2" className="event-location">{event.location}</Typography>
-              <Box className="event-status">
-                {event.approved ? 'Approved' : 'Pending'}
+              <Box className={styles.eventButtons}>
+                <Button
+                  variant="contained"
+                  color="success" 
+                  onClick={() => handleApprove(event._id)}
+                  disabled={event.approved}
+                >
+                  Approve
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error" 
+                  onClick={() => handleDelete(event._id)}
+                >
+                  Delete
+                </Button>
               </Box>
-            </Box>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
 
-            <Typography variant="body1" className="event-details" paragraph>
-              {event.details}
-            </Typography>
+      <Typography variant="h4" className={styles.sectionTitle} style={{ color: 'maroon' }}>
+        Approved Events
+      </Typography>
+      <hr className={styles.horizontalRule} />
 
-            <Typography variant="body2" className="event-details">
-              <strong>Total Tickets:</strong> {event.totalTickets}
-            </Typography>
-            <Typography variant="body2" className="event-details">
-              <strong>Ticket Price:</strong> ${event.ticketPrice}
-            </Typography>
-
-            <Box className="event-buttons">
-              <Button
-                variant="outlined"
-                className="block-button"
-                onClick={() => handleBlock(event._id)}
+      <Grid container spacing={3} className={styles.eventGrid}>
+        {approvedEvents.map((event) => (
+          <Grid item xs={12} sm={6} md={4} key={event._id}>
+            <Paper className={styles.eventCard}>
+              <Box
+                className={styles.eventHeader}
+                style={{ backgroundImage: `url(${event.poster})` }}
               >
-                Block
-              </Button>
-            </Box>
-          </Paper>
-        </Grid2>
-      ))}
-    </Grid2>
-    </>
+                <Typography variant="h6" className={styles.eventTitle}>
+                  {event.title}
+                </Typography>
+              </Box>
+
+              <Typography variant="body1" className={styles.eventDetails} paragraph>
+                {event.details}
+              </Typography>
+
+              <Typography variant="body2" className={styles.eventDetails}>
+                <strong>Total Tickets:</strong> {event.totalTickets}
+              </Typography>
+              <Typography variant="body2" className={styles.eventDetails}>
+                <strong>Ticket Price:</strong> ₹{event.ticketPrice}
+              </Typography>
+
+              <Box className={styles.eventButtons}>
+                <Button
+                  variant="outlined"
+                  color="warning" 
+                  onClick={() => handleBlock(event._id)}
+                >
+                  Block
+                </Button>
+              </Box>
+            </Paper>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 };
 
